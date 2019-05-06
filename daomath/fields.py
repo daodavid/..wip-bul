@@ -8,7 +8,7 @@ import plotly.plotly as py
 
 class VectorField:
 
-    def __init__(self, x_function, y_function, z_function=None, range=[0, 10]):
+    def __init__(self, x_function, y_function, z_function=None, range=[-10, 10]):
         """
 
         :param x_function: e1 = U(x,y)
@@ -37,7 +37,7 @@ class VectorField:
         self.ax.spines['bottom'].set_position('zero')
         self.ax.spines['left'].set_position('zero')
         self.ax.spines['right'].set_color('none')
-        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], angles='xy', scale_units='xy', scale=15, color=color,
+        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], angles='xy', scale_units='xy', scale=1, color=color,
                        width=0.003)
         # plt.quiver([0], [0], [2 , angles='xy', scale_units='xy', scale=1)
         plt.quiverkey(q, 10, 10, 100, r'$2 \frac{m}{s}$', labelpos='E', coordinates='figure')
