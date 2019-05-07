@@ -1,9 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
-import plotly.tools as tls
-from plotly import figure_factory as ff
-import plotly.plotly as py
+
 from daomath.fields import VectorField
 
 
