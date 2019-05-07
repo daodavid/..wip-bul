@@ -24,8 +24,7 @@ class VectorField:
     def evaluate_cord(self):
         x = np.linspace(self.range[0], self.range[1], 10)
         y = np.linspace(self.range[0], self.range[1], 10)
-        matrix = [[x0, y0, self.U(x0, y0), self.V(x0, y0)] for x0 in x for y0 in
-                  y]  ### matrix v1([x0.0,y0.0,x0.1,y.0.1])v2([x2.0,y2.0,x2.1,y2,2])
+        matrix = [[x0, y0, self.U(x0, y0), self.V(x0, y0)] for x0 in x for y0 in y]  ### matrix v1([x0.0,y0.0,x0.1,y.0.1])v2([x2.0,y2.0,x2.1,y2,2])
         self.quiver_cords = np.array(matrix)
 
     def plot_field(self, append=False, color='b'):

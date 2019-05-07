@@ -126,14 +126,19 @@ def solveODE(u, v, u0, v0, t0, h=0.1, n=100):
         ax = plt.gca()
         plt.xlim(-12, 12)
         plt.ylim(-10, 10)
+        V = np.array([x, y])
+        #q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], angles='xy', scale_units='xy', scale=1, color='z',width=0.003)
         ax.plot(x_args, y_args, label="solved", color="black")
 
-    return np.array([x, y, t])
+    return v
 
 
+#
+# u_x= lambda x,y:-y/np.sqrt(x**2+y**2)
+# v_y = lambda x,y:-x/np.sqrt(x**2+y**2)
 
-u_x= lambda x,y:-y/np.sqrt(x**2+y**2)
-v_y = lambda x,y:x/np.sqrt(x**2+y**2)/x
 
-solveODE(u_x,v_y,6,1,0)
+u_x= lambda x,y:-x/np.sqrt(x**2+y**2)
+v_y = lambda x,y:-y/np.sqrt(x**2+y**2)
+solveODE(u_x,v_y,-10*np.sqrt(2)/2,-10*np.sqrt(2)/2,0)
 plt.show()
