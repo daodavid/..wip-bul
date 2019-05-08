@@ -34,26 +34,46 @@ class RadiusVector:
             plt.show()
 
     def derivative(self):
-        self.v_x = []
-        self.v_x0 = []  # start position
-        self.v_y = []
-        self.v_y0 = []
+        v_x = []
+        v_x0 = []  # start position
+        v_y = []
+        v_y0 = []
+        time = []
         print(self.x_args)
         for i in range(len(self.x_args) - 2):
             dt = self.t_args[i + 1] - self.t_args[i]
             dx = self.x_args[i + 1] - self.x_args[i]
             dy = self.y_args[i + 1] - self.y_args[i]
-            self.v_x0.append(self.x_args[i])
-            self.v_y0.append(self.y_args[i])
-            self.v_x.append(dx / dt)
-            self.v_y.append(dy / dt)
-        p = np.array([self.v_x0, self.v_y, self.v_x])
-        self.speed_space = np.array([self.v_x0, self.v_y0, self.v_x, self.v_y]).T
+            time.append(self.t_args[i])
+            v_x0.append(self.x_args[i])
+            v_y0.append(self.y_args[i])
+            v_x.append(dx / dt)
+            v_y.append(dy / dt)
+        self.speed_space = np.array([v_x0, v_y0, v_x,v_y ,time]).T
 
         return self.speed_space
 
     def acceleration(self):
-        pass
+        a_x = []
+        a_x0 = []  # start position
+        a_y = []
+        a_y0 = []
+        time = []
+        vx_sp = self.speed_space[:,2]
+        vy_sp =self.speed_space[:,3]
+
+        for i in range(len(vx_sp) - 2):
+            dt = self.t_args[i + 1] - self.t_args[i]
+            dvx = vx_sp[i + 1] - vx_sp[i]
+            dvy = vy_sp[i + 1] - vy_sp[i]
+            time.append(self.t_args[i])
+            a_x0.append(self.x_args[i])
+            a_y0.append(self.y_args[i])
+            a_x.append(dvx / dt)
+            a_y.append(dvy / dt)
+
+        self.acceleration_space = np.array([a_x0, a_y0, a_x,a_y, time]).T
+        return self.acceleration_space
 
     def draw_curve(self, color='blue'):
         self.ax.plot(self.x_args, self.y_args, label="solved", color=color)
@@ -70,10 +90,24 @@ class RadiusVector:
         self.ax.spines['left'].set_position('zero')
         self.ax.spines['right'].set_color('none')
         q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], color='blue',
-                       width=0.003, angles='xy', scale_units='xy', scale=8)
+                       width=0.003, angles='xy', scale_units='xy', scale=1)
 
         plt.show()
-
+    def draw_accelaration(self):
+        self.ax = plt.gca()
+        plt.title('Arrows scale with plot width, not view')
+        plt.text(1, 1, r'$2 \frac{m}{s}$', fontsize=20, verticalalignment='center', transform=self.ax.transAxes)
+        plt.xlim(0, 10)
+        plt.ylim(0, 10)
+        v = self.acceleration_space
+        self.ax.spines['top'].set_color('none')
+        self.ax.spines['bottom'].set_position('zero')
+        self.ax.spines['left'].set_position('zero')
+        self.ax.spines['right'].set_color('none')
+        print(v[:,2])
+        print(v[1,2])
+        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], color='blue',
+                       width=0.003, angles='xy', scale_units='xy', scale=1)
     def draw(self):
         self.draw_radios_vector(append=True)
         self.draw_curve()
@@ -81,10 +115,11 @@ class RadiusVector:
 
 
 # v = RadiusVector(lambda t: 10 * np.sin(np.pi * (t / 360)), lambda t: 4 * np.cos(np.pi * (t / 360)),range[0,10])
-v = RadiusVector(lambda t: t * 3, lambda t: t * t, range=[0, 10], split=10)
+v = RadiusVector(lambda t: t * 3, lambda t: t * t, range=[0, 10], split=40)
 v.derivative()
+v.acceleration()
+v.draw_accelaration()
 v.draw_speed()
-
 
 class VectorField:
 
