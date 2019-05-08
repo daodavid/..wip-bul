@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 class RadiusVector:
-    def __init__(self, x_function, y_function, z_function=None, range=[-10, 10], split=60):
+    def __init__(self, x_function, y_function, z_function=None, range=[-10, 10], split=10000000):
         self.x_t = x_function
         self.y_t = y_function
         time = np.linspace(range[0], range[1], split)
@@ -17,8 +17,8 @@ class RadiusVector:
         self.ax = plt.gca()
         plt.title('Arrows scale with plot width, not view')
         plt.text(1, 1, r'$2 \frac{m}{s}$', fontsize=20, verticalalignment='center', transform=self.ax.transAxes)
-        plt.xlim(0, 10)
-        plt.ylim(0, 10)
+        plt.xlim(-10, 10)
+        plt.ylim(-10, 10)
         v = self.radius_vector
         self.ax.spines['top'].set_color('none')
         self.ax.spines['bottom'].set_position('zero')
@@ -82,23 +82,19 @@ class RadiusVector:
         self.ax = plt.gca()
         plt.title('Arrows scale with plot width, not view')
         plt.text(1, 1, r'$2 \frac{m}{s}$', fontsize=20, verticalalignment='center', transform=self.ax.transAxes)
-        plt.xlim(0, 10)
-        plt.ylim(0, 10)
         v = self.speed_space
         self.ax.spines['top'].set_color('none')
         self.ax.spines['bottom'].set_position('zero')
         self.ax.spines['left'].set_position('zero')
         self.ax.spines['right'].set_color('none')
         q = plt.quiver(v[0:100:4, 0], v[0:100:4, 1], v[0:100:4, 2], v[0:100:4, 3], color='red',
-                       width=0.003, angles='xy', scale_units='xy', scale=1)
+                       width=0.003, angles='xy', scale_units='xy', scale=0.01)
 
         plt.show()
     def draw_accelaration(self):
         self.ax = plt.gca()
         plt.title('Arrows scale with plot width, not view')
         plt.text(1, 1, r'$2 \frac{m}{s}$', fontsize=20, verticalalignment='center', transform=self.ax.transAxes)
-        plt.xlim(0, 10)
-        plt.ylim(0, 10)
         v = self.acceleration_space
         self.ax.spines['top'].set_color('none')
         self.ax.spines['bottom'].set_position('zero')
@@ -107,7 +103,7 @@ class RadiusVector:
         print(v[:,2])
         print(v[1,2])
         q = plt.quiver(v[0:100:4, 0], v[0:100:4, 1], v[0:100:4, 2], v[0:100:4, 3], color='blue',
-                       width=0.003, angles='xy', scale_units='xy', scale=1)
+                       width=0.003, angles='xy', scale_units='xy', scale=0.001)
     def draw(self):
         self.draw_radios_vector(append=True)
         self.draw_curve()
@@ -115,15 +111,17 @@ class RadiusVector:
 
 
 # v = RadiusVector(lambda t: 10 * np.sin(np.pi * (t / 360)), lambda t: 4 * np.cos(np.pi * (t / 360)),range[0,10])
-v = RadiusVector(lambda t: t * 3, lambda t: t * t, range=[0, 10], split=100)
-v.derivative()
-v.acceleration()
-v.draw_accelaration()
-v.draw_speed()
+# v = RadiusVector(lambda t: 10*np.sin(t*np.pi/180), lambda t: 10*np.cos(t*np.pi/180), range=[0, 360], split=60)
+# v.draw_radios_vector(append=True)
+#
+# v.derivative()
+# v.acceleration()
+# v.draw_accelaration()
+# v.draw_speed()
 
 class VectorField:
 
-    def __init__(self, x_function, y_function, z_function=None, range=[-10, 10]):
+    def __init__(self, x_function, y_function, z_function=None, range= [0,10]):
         """
 
         :param x_function: e1 = U(x,y)
@@ -139,33 +137,28 @@ class VectorField:
     def evaluate_cord(self):
         x = np.linspace(self.range[0], self.range[1], 10)
         y = np.linspace(self.range[0], self.range[1], 10)
-        matrix = [[x0, y0, self.U(x0, y0), self.V(x0, y0)] for x0 in x for y0 in
-                  y]  ### matrix v1([x0.0,y0.0,x0.1,y.0.1])v2([x2.0,y2.0,x2.1,y2,2])
+        matrix = [[x0, y0, self.U(x0, y0), self.V(x0, y0)] for x0 in x for y0 in y]  ### matrix v1([x0.0,y0.0,x0.1,y.0.1])v2([x2.0,y2.0,x2.1,y2,2])
         self.quiver_cords = np.array(matrix)
 
     def plot_field(self, append=False, color='b'):
         self.evaluate_cord()
+
+        v = self.quiver_cords
+
+        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], angles='xy', scale_units='xy', scale=1, color=color,
+                       width=0.003)
+
+    def plot_p(self):
         self.ax = plt.gca()
         plt.title('Arrows scale with plot width, not view')
-        v = self.quiver_cords
         self.ax.spines['top'].set_color('none')
         self.ax.spines['bottom'].set_position('zero')
         self.ax.spines['left'].set_position('zero')
         self.ax.spines['right'].set_color('none')
-        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], angles='xy', scale_units='xy', scale=1, color=color,
-                       width=0.003)
-        # plt.quiver([0], [0], [2 , angles='xy', scale_units='xy', scale=1)
-        plt.quiverkey(q, 10, 10, 100, r'$2 \frac{m}{s}$', labelpos='E', coordinates='figure')
         plt.text(1, 1, r'$2 \frac{m}{s}$', fontsize=20, verticalalignment='center', transform=self.ax.transAxes)
         plt.xlim(-10, 10)
         plt.ylim(-10, 10)
         plt.axis('equal')
-        if append:
-            """
-            """
-        else:
-            plt.show()
-
     def append_vector(self):
         pass
 
