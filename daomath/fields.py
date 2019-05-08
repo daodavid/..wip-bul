@@ -89,7 +89,7 @@ class RadiusVector:
         self.ax.spines['bottom'].set_position('zero')
         self.ax.spines['left'].set_position('zero')
         self.ax.spines['right'].set_color('none')
-        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], color='blue',
+        q = plt.quiver(v[0:100:4, 0], v[0:100:4, 1], v[0:100:4, 2], v[0:100:4, 3], color='red',
                        width=0.003, angles='xy', scale_units='xy', scale=1)
 
         plt.show()
@@ -106,7 +106,7 @@ class RadiusVector:
         self.ax.spines['right'].set_color('none')
         print(v[:,2])
         print(v[1,2])
-        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], color='blue',
+        q = plt.quiver(v[0:100:4, 0], v[0:100:4, 1], v[0:100:4, 2], v[0:100:4, 3], color='blue',
                        width=0.003, angles='xy', scale_units='xy', scale=1)
     def draw(self):
         self.draw_radios_vector(append=True)
@@ -115,7 +115,7 @@ class RadiusVector:
 
 
 # v = RadiusVector(lambda t: 10 * np.sin(np.pi * (t / 360)), lambda t: 4 * np.cos(np.pi * (t / 360)),range[0,10])
-v = RadiusVector(lambda t: t * 3, lambda t: t * t, range=[0, 10], split=40)
+v = RadiusVector(lambda t: t * 3, lambda t: t * t, range=[0, 10], split=100)
 v.derivative()
 v.acceleration()
 v.draw_accelaration()
