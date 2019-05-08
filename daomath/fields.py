@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 
 
 class RadiusVector:
-    def __init__(self, x_function, y_function, z_function=None, range=[-10, 10],split = 60):
+    def __init__(self, x_function, y_function, z_function=None, range=[-10, 10], split=60):
         self.x_t = x_function
         self.y_t = y_function
-        time = np.linspace(range[0],range[1] ,split)
+        time = np.linspace(range[0], range[1], split)
         self.radius_vector = [[0, 0, self.x_t(t), self.y_t(t), t] for t in time]
         self.radius_vector = np.array(self.radius_vector)
         self.x_args = self.radius_vector[:, 2]
@@ -35,26 +35,25 @@ class RadiusVector:
 
     def derivative(self):
         self.v_x = []
-        self.v_x0 =[] #start position
+        self.v_x0 = []  # start position
         self.v_y = []
-        self.v_y0= []
+        self.v_y0 = []
         print(self.x_args)
-        for i in range(len(self.x_args)-2):
-            dt = self.t_args[i+1]-self.t_args[i]
-            dx = self.x_args[i+1]- self.x_args[i]
-            dy = self.y_args[i+1] - self.y_args[i]
+        for i in range(len(self.x_args) - 2):
+            dt = self.t_args[i + 1] - self.t_args[i]
+            dx = self.x_args[i + 1] - self.x_args[i]
+            dy = self.y_args[i + 1] - self.y_args[i]
             self.v_x0.append(self.x_args[i])
             self.v_y0.append(self.y_args[i])
-            self.v_x.append(dx/dt)
-            self.v_y.append(dy/dt)
-        p = np.array([self.v_x0,self.v_y,self.v_x])
-        self.speed_space = np.array([self.v_x0, self.v_y0, self.v_x, self.v_y])
+            self.v_x.append(dx / dt)
+            self.v_y.append(dy / dt)
+        p = np.array([self.v_x0, self.v_y, self.v_x])
+        self.speed_space = np.array([self.v_x0, self.v_y0, self.v_x, self.v_y]).T
 
         return self.speed_space
 
-
-
-
+    def acceleration(self):
+        pass
 
     def draw_curve(self, color='blue'):
         self.ax.plot(self.x_args, self.y_args, label="solved", color=color)
@@ -70,7 +69,7 @@ class RadiusVector:
         self.ax.spines['bottom'].set_position('zero')
         self.ax.spines['left'].set_position('zero')
         self.ax.spines['right'].set_color('none')
-        q = plt.quiver(v[:, 0], v[:, 1],v[:,2],v[:,3], self.x_args, self.y_args, color='blue',
+        q = plt.quiver(v[:, 0], v[:, 1], v[:, 2], v[:, 3], color='blue',
                        width=0.003, angles='xy', scale_units='xy', scale=8)
 
         plt.show()
@@ -81,10 +80,11 @@ class RadiusVector:
         plt.show()
 
 
-#v = RadiusVector(lambda t: 10 * np.sin(np.pi * (t / 360)), lambda t: 4 * np.cos(np.pi * (t / 360)),range[0,10])
-v = RadiusVector(lambda t:t*3 , lambda t:t*t ,range=[0,10],split = 10)
+# v = RadiusVector(lambda t: 10 * np.sin(np.pi * (t / 360)), lambda t: 4 * np.cos(np.pi * (t / 360)),range[0,10])
+v = RadiusVector(lambda t: t * 3, lambda t: t * t, range=[0, 10], split=10)
 v.derivative()
 v.draw_speed()
+
 
 class VectorField:
 
