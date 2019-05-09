@@ -3,25 +3,32 @@ import numpy as np
 
 def solveODE(u, v, u0, v0, t0=0, h=0.1, n=100):
     """
-    Runge Kutta method
+    solve system ode
+    :param u: u(x,y,t) e1
+    :param v: v(x,y,t) e2
+    :param u0: initial value
+    :param v0: initial value
+    :param t0: initial value
+    :param h:  increment step
+    :param n:  interval multiple by h give the interval for integration
     :return:
-   """
+    """
 
-    y_args = [v0]
-    x_args = [u0]
-    t_args = [t0]
+    y_args = [v0]  # y_args array for y arguments
+    x_args = [u0]  # x_args array for arguments
+    t_args = [t0]  # time interval
     x = u0
     y = v0
     t = t0
     for i in range(n):
-        k1 = -h * u(x, y)
-        l1 = -h * v(x, y)
-        k2 = u(x + k1 / 2, y + l1 / 2)
-        l2 = v(x + k1 / 2, y + l1 / 2)
-        k3 = u(x + k2 / 2, y + l2 / 2)
-        l3 = v(x + k2 / 2, y + l2 / 2)
-        k4 = u(x + k3 / 2, y + l3 / 2)
-        l4 = v(x + k3 / 2, y + l3 / 2)
+        k1 = h * u(x, y, t)
+        l1 = h * v(x, y, t)
+        k2 = h * u(t + h / 2, x + k1 / 2, y + l1 / 2)
+        l2 = h * v(t + h / 2, x + k1 / 2, y + l1 / 2)
+        k3 = h * u(t + h / 2, x + k2 / 2, y + l2 / 2)
+        l3 = h * v(t + h / 2, x + k2 / 2, y + l2 / 2)
+        k4 = h * u(t + h / 2, x + k3 / 2, y + l3 / 2)
+        l4 = h * v(t + h / 2, x + k3 / 2, y + l3 / 2)
         k = (1 / 6) * (k1 + 2 * k2 + 2 * k3 + k4)
         l = (1 / 6) * (l1 + 2 * l2 + 2 * l3 + l4)
         x = x + k
@@ -31,17 +38,16 @@ def solveODE(u, v, u0, v0, t0=0, h=0.1, n=100):
         y_args.append(y)
         t_args.append(t)
 
-
         # ax.plot(x_args, y_args, label="solved", color="black")
 
-    return np.array([x_args,y_args,t_args]).T
+    return np.array([x_args, y_args, t_args]).T
 
 
-def intergrate(x0,dxdt,t):
-    x_args=[]
-    for i in range(len(t)-1):
-        dt = t[i+1]- t[i]
-        f = dxdt*dt+x0
-        x0=f
+def intergrate(x0, dxdt, t):
+    x_args = []
+    for i in range(len(t) - 1):
+        dt = t[i + 1] - t[i]
+        f = dxdt * dt + x0
+        x0 = f
         x_args.append(f)
     return np.array(x_args)
