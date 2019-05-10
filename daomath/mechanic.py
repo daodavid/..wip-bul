@@ -52,16 +52,19 @@ class MaterialPoint():
     def plot_graph_motion(self):
         x0 = self.x_args*0
         y0 = self.y_args*0
-        q = plt.quiver(x0, x0,self.x_args, self.y_args, angles='xy', scale_units='xy', scale=1, color='red', width=0.00003)
+        q = plt.quiver(x0, x0,self.x_args, self.y_args, angles='xy', scale_units='xy', scale=0.001, color='red', width=3)
 
-force = Force(lambda x,y :-x ,lambda y,x: -y)
+f_x = lambda x,y : -x
+
+
+force = Force(lambda x,y :-x,lambda x,y: -y)
 force.plot_field()
 force.plot_p()
-#plt.show()
-
-point = MaterialPoint(x0=5,y0=5)
-point.add_force_field(force)
-v = point.calculate_speed(1,4)
-point.calculate_radius_vector(-1,-1)
-point.plot_graph_motion()
 plt.show()
+
+# point = MaterialPoint(x0=5,y0=5)
+# point.add_force_field(force)
+# v = point.calculate_speed(1,4)
+# point.calculate_radius_vector(-1,-1)
+# point.plot_graph_motion()
+# plt.show()
