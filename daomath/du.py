@@ -27,8 +27,8 @@ def solveODE(u, v, u0, v0, t0=0, h=0.1, n=100):
         l2 = h * v(t + h / 2, x + k1 / 2, y + l1 / 2)
         k3 = h * u(t + h / 2, x + k2 / 2, y + l2 / 2)
         l3 = h * v(t + h / 2, x + k2 / 2, y + l2 / 2)
-        k4 = h * u(t + h / 2, x + k3 / 2, y + l3 / 2)
-        l4 = h * v(t + h / 2, x + k3 / 2, y + l3 / 2)
+        k4 = h * u(t + h , x + k3 , y + l3 )
+        l4 = h * v(t + h , x + k3, y + l3 )
         k = (1 / 6) * (k1 + 2 * k2 + 2 * k3 + k4)
         l = (1 / 6) * (l1 + 2 * l2 + 2 * l3 + l4)
         x = x + k
@@ -51,3 +51,6 @@ def intergrate(x0, dxdt, t):
         x0 = f
         x_args.append(f)
     return np.array(x_args)
+
+
+

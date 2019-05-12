@@ -137,25 +137,29 @@ class VectorField:
         self.z = z_function
         self.rng = range
 
-    def evaluate_cord(self):
+    def plot_field(self, matrix,color = 'b'):
+        v = matrix
+        x0 = v[:, 0]
+        y0 = v[:, 1]
+        x = v[:, 2]
+        y = v[:, 3]
+        if v.shape[0] > 1000:
+            x0 = reduce_array(x0, 35)
+            y0 = reduce_array(y0, 35)
+            x = reduce_array(x, 35)
+            y = reduce_array(y, 35)
+
+        q = plt.quiver(x0, y0, x, y, angles='xy', scale_units='xy', scale=20, color=color, width=0.003)
+
+    def evaluate_cord_field(self):
         x = np.linspace(self.rng[0], self.rng[1], 80)
         y = np.linspace(self.rng[0], self.rng[1], 80)
         matrix = np.array([[x0, y0, self.U(x0, y0), self.V(x0, y0)] for y0 in y for x0 in x])
         self.field_cordinates = matrix
 
-    def plot_field(self, append=False, color='b', sep=10):
-        self.evaluate_cord()
-
-        v = self.field_cordinates
-        x0 = v[:, 0]
-        x0 = reduce_array(x0, 35)
-        y0 = v[:, 1]
-        y0 = reduce_array(y0, 35)
-        x = v[:, 2]
-        x = reduce_array(x, 35)
-        y = v[:, 3]
-        y = reduce_array(y, 35)
-        q = plt.quiver(x0, y0, x, y, angles='xy', scale_units='xy', scale=20, color=color, width=0.003)
+    def plot_force_field(self, append=False, color='b', sep=10,):
+        self.evaluate_cord_field()
+        self.plot_field(self.field_cordinates)
 
     def plot_p(self):
         self.ax = plt.gca()
@@ -190,3 +194,6 @@ class SystemODE(VectorField):
 
     def solve(self):
         pass
+
+
+print(type(np.ndarray))
