@@ -4,8 +4,8 @@ from daomath.fields import VectorField
 from daomath.du import *
 class Force(VectorField):
 
-    def __init__(self,u,v,p=0,r=[0,10]):
-        super().__init__(u,v,p)
+    def __init__(self,u,v,p=0,r=[-10,10]):
+        super().__init__(u,v,p,range=r)
 
 class MaterialPoint():
 
