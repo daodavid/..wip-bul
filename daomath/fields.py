@@ -149,12 +149,12 @@ class VectorField:
             x = reduce_array(x, 35)
             y = reduce_array(y, 35)
 
-        q = plt.quiver(x0, y0, x, y, angles='xy', scale_units='xy', scale=20, color=color, width=0.003)
+        q = plt.quiver(x0, y0, x, y, angles='xy', scale_units='xy', scale=5, color=color, width=0.003)
 
     def evaluate_cord_field(self):
         x = np.linspace(self.rng[0], self.rng[1], 80)
         y = np.linspace(self.rng[0], self.rng[1], 80)
-        matrix = np.array([[x0, y0, self.U(x0, y0), self.V(x0, y0)] for y0 in y for x0 in x])
+        matrix = np.array([[x0, y0, self.U(0,x0, y0), self.V(0,x0, y0)] for y0 in y for x0 in x])
         self.field_cordinates = matrix
 
     def plot_force_field(self, append=False, color='b', sep=10,):

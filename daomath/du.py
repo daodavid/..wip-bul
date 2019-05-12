@@ -44,11 +44,12 @@ def solveODE(u, v, u0, v0, t0=0, h=0.1, n=100):
 
 
 def intergrate(x0, dxdt, t):
-    x_args = []
+    x_args = [x0]
+    f=x0
     for i in range(len(t) - 1):
         dt = t[i + 1] - t[i]
-        f = dxdt * dt + x0
-        x0 = f
+        f = f+dxdt[i] * dt
+
         x_args.append(f)
     return np.array(x_args)
 
