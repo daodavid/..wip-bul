@@ -169,8 +169,8 @@ class VectorField:
         self.ax.spines['left'].set_position('zero')
         self.ax.spines['right'].set_color('none')
         plt.text(1, 1, r'$2 \frac{m}{s}$', fontsize=20, verticalalignment='center', transform=self.ax.transAxes)
-        plt.xlim(-10, 10)
-        plt.ylim(-10, 10)
+        plt.xlim(-100, 100)
+        plt.ylim(-100, 100)
         plt.axis('equal')
 
     def append_vector(self):
@@ -189,7 +189,7 @@ by Courtney Remani
 
 
 class SystemODE(VectorField):
-    def __init__(self, x_function, y_function, z_function=None, range=[-10, 10]):
+    def __init__(self, x_function, y_function, z_function=None, range=[-100, 100]):
         VectorField.__init__(x_function, y_function, z_function, range)
 
     def solve(self):
